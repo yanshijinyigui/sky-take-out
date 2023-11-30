@@ -95,9 +95,7 @@ public class EmployeeController {
      *
      */
      @GetMapping("/page") public PageResult empPage(EmployeePageQueryDTO employeePageQueryDTO) {
-     Object pa = employeeService.pageQuery(employeePageQueryDTO);
-
-
+         PageResult pa = employeeService.pageQuery(employeePageQueryDTO);
          return  pa;
      }
 
