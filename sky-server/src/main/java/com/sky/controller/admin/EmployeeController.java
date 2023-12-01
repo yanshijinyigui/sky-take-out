@@ -1,6 +1,7 @@
 package com.sky.controller.admin;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.dto.PasswordEditDTO;
@@ -11,6 +12,7 @@ import com.sky.result.Result;
 import com.sky.service.EmployeeService;
 import com.sky.utils.JwtUtil;
 import com.sky.vo.EmployeeLoginVO;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -94,18 +96,22 @@ public class EmployeeController {
      * 员工分页查询
      *
      */
-     @GetMapping("/page") public PageResult empPage(EmployeePageQueryDTO employeePageQueryDTO) {
+     @GetMapping("/page") public Result<PageResult> empPage(EmployeePageQueryDTO employeePageQueryDTO) {
          PageResult pa = employeeService.pageQuery(employeePageQueryDTO);
-         return  pa;
+         return  Result.success(pa);
      }
 
     /**
      * 新增员工
+     * @param employeeDTO
+     * @return
      */
     @PostMapping
-    public Result newEmp(@RequestBody Employee employee) {
-        employeeService.newEmp(employee);
-        return Result.success(employee);
+    @ApiOperation("新增员工")
+    public Result newEmp(@RequestBody EmployeeDTO employeeDTO){
+        log.info("新增员工：{}",employeeDTO);
+        employeeService.newEmp(employeeDTO);//该方法后续步骤会定义
+        return Result.success();
     }
 
     /**
@@ -121,13 +127,16 @@ public class EmployeeController {
 
     /**
      * 编辑员工信息
+     * @param employeeDTO
+     * @return
      */
     @PutMapping
-    public Result Employee_1(@RequestBody Employee employee) {
-        employeeService.update(employee);
-        return Result.success("ok");
+    @ApiOperation("编辑员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        log.info("编辑员工信息：{}", employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
     }
-
 
 }
 

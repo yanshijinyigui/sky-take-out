@@ -1,5 +1,6 @@
 package com.sky.mapper;
 
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.dto.PasswordEditDTO;
@@ -22,12 +23,10 @@ public interface EmployeeMapper {
     Employee getByUsername(String username);
 
     //修改密码
-    @Update("update employee set password=#{newPassword} where id=#{empId} and password=#{oldPassword}")
+    @Update("update employee set password=#{newPassword} where  password=#{oldPassword}")
     void updatePassword(PasswordEditDTO O);
 
-    //启用、禁用员工账号
-    @Update("update employee set status=#{status}  where id=#{id}")
-    void startOrStop( Integer status, Long id);
+
 
     /**员工分页查询
      */
@@ -41,6 +40,7 @@ public interface EmployeeMapper {
     void newEmp(Employee o);
 
     //根据id查询员工
+    @Select("select * from employee where id = #{id}")
     Employee SearchEmp(String o);
 
     //编辑员工信息

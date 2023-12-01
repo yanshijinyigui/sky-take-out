@@ -1,7 +1,11 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
+import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.context.BaseContext;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.dto.PasswordEditDTO;
@@ -12,6 +16,7 @@ import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -71,7 +76,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     //启用、禁用员工账号
     @Override
     public void startOrStop(Integer status, Long id) {
-        employeeMapper.startOrStop(status, id);
+
+        Employee employee = new Employee();
+        employee.setStatus(status);
+        employee.setId(id);
+
+        employeeMapper.update(employee);
 
     }
 
@@ -80,23 +90,33 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO u) {
+        PageHelper.startPage(u.getPage(),u.getPageSize());
 
-        int size = employeeMapper.pageQuery(new EmployeePageQueryDTO(u.getName(), u.getPage(), u.getPageSize())).size();
-        List<Employee> employees = employeeMapper.pageQuery(new EmployeePageQueryDTO(u.getName(), u.getPage(), u.getPageSize()));
+        int size = employeeMapper.pageQuery(u).size();
+        List<Employee> list = employeeMapper.pageQuery(u);
 
-        PageResult pageResult = new PageResult(size,employees);
+
+        System.out.println(list);
+
+        PageResult pageResult = new PageResult(size,list);
         return pageResult;
     }
 
 
     //新增员工
     @Override
-    public void newEmp(Employee o) {
-        o.setCreateTime(LocalDateTime.now());
-        o.setUpdateTime(LocalDateTime.now());
-        o.setCreateUser(o.getId());
-        o.setUpdateUser(o.getId());
-        employeeMapper.newEmp(o);
+    public void newEmp(EmployeeDTO EMP) {
+        Employee emp = new Employee();
+        BeanUtils.copyProperties(EMP, emp);
+
+        emp.setStatus(StatusConstant.ENABLE);
+        emp.setPassword("123456");
+        emp.setCreateTime(LocalDateTime.now());
+        emp.setUpdateTime(LocalDateTime.now());
+        emp.setCreateUser(10L);
+        emp.setUpdateUser(10L);
+
+        employeeMapper.newEmp(emp);
     }
 
 
@@ -106,10 +126,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeMapper.SearchEmp(o);
     }
 
-    //编辑员工信息
-    @Override
-    public void update(Employee o) {
-        employeeMapper.update(o);
+    /**
+     * 编辑员工信息
+     *
+     * @param employeeDTO
+     */
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
 
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.update(employee);
     }
 }
