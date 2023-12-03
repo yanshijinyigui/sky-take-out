@@ -17,4 +17,15 @@
 
 
     </insert>
+    <select id="pageQuery" resultType="com.sky.entity.Dish">
+        select * from dish
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                and categoryId = #{categoryId}
+            </if>
+        </where>
+    </select>
 </mapper>
