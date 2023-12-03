@@ -32,6 +32,12 @@ logging:
 
 
 sky:
+  alioss:
+    endpoint: oss-cn-shanghai.aliyuncs.com
+    accessKeyId: LTAI5tPtTshnihff2GQPH6gR
+    accessKeySecret: HTybWrauYFnhTC2oEe3ayxIlf9uJow
+    bucketName: ysjyg
+
   jwt:
     # 设置jwt签名加密时使用的秘钥
     admin-secret-key: itcast

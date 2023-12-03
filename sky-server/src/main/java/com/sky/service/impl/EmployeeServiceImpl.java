@@ -15,7 +15,9 @@ import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
+import com.sky.result.Result;
 import com.sky.service.EmployeeService;
+import com.sky.utils.MD5SaltedHash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         String username = employeeLoginDTO.getUsername();
         String password = employeeLoginDTO.getPassword();
 
+
         //1、根据用户名查询数据库中的数据
         Employee employee = employeeMapper.getByUsername(username);
 
@@ -52,11 +55,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //密码比对
         // TODO 后期需要进行md5加密，然后再进行比对
-        if (!password.equals(employee.getPassword())) {
+        if(!MD5SaltedHash.verifyPassword(password,employee.getPassword())){
             //密码错误
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
-
         if (employee.getStatus() == StatusConstant.DISABLE) {
             //账号被锁定
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
@@ -70,6 +72,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     //修改密码
     @Override
     public void updatePassword(PasswordEditDTO O) {
+        String newPassword = O.getNewPassword();
+        String s = MD5SaltedHash.hashAndSaltPassword(newPassword);
+        O.setNewPassword(s);
+        System.out.println(O);
         employeeMapper.updatePassword(O);
     }
 
@@ -109,12 +115,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee emp = new Employee();
         BeanUtils.copyProperties(EMP, emp);
 
+        //添加默认密码并加密
         emp.setStatus(StatusConstant.ENABLE);
-        emp.setPassword("123456");
-        emp.setCreateTime(LocalDateTime.now());
+        emp.setPassword(MD5SaltedHash.hashAndSaltPassword("123456"));
+
+   /*     emp.setCreateTime(LocalDateTime.now());
         emp.setUpdateTime(LocalDateTime.now());
-        emp.setCreateUser(10L);
-        emp.setUpdateUser(10L);
+        emp.setCreateUser(BaseContext.getCurrentId());
+        emp.setUpdateUser(BaseContext.getCurrentId());*/
 
         employeeMapper.newEmp(emp);
     }
@@ -135,8 +143,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO, employee);
 
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+        /*employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());*/
 
         employeeMapper.update(employee);
     }
