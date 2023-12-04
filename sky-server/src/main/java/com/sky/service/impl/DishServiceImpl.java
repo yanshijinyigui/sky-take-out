@@ -151,8 +151,6 @@ public class DishServiceImpl implements DishService {
         Dish dish=Dish.builder()
                 .id(id)
                 .status(status)
-                .updateTime(LocalDateTime.now())
-                .updateUser(BaseContext.getCurrentId())
                 .build();
 
 
