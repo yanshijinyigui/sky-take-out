@@ -17,15 +17,19 @@
 
 
     </insert>
-    <select id="pageQuery" resultType="com.sky.entity.Dish">
-        select * from dish
+    <select id="pageQuery" resultType="com.sky.vo.DishVO">
+        select d.* , c.name as categoryName from dish d left outer join category c on d.category_id = c.id
         <where>
-            <if test="name != null and name != ''">
-                and name like concat('%',#{name},'%')
+            <if test="name != null">
+                and d.name like concat('%',#{name},'%')
             </if>
-            <if test="categoryId != null and categoryId != ''">
-                and categoryId = #{categoryId}
+            <if test="categoryId != null">
+                and d.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and d.status = #{status}
             </if>
         </where>
+        order by d.id desc
     </select>
 </mapper>
