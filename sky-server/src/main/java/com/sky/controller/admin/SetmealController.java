@@ -7,10 +7,10 @@ import com.sky.result.Result;
 import com.sky.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -21,12 +21,11 @@ public class SetmealController {
     private SetmealService setmealService;
 
 
-
     /**
      * 分页查询
-     * */
+     */
     @GetMapping("/page")
-    public Result<PageResult> pageResultResult(SetmealPageQueryDTO setmealPageQueryDTO){
+    public Result<PageResult> pageResultResult(SetmealPageQueryDTO setmealPageQueryDTO) {
         log.info("分页查询：{}", setmealPageQueryDTO);
         PageResult pageResult = setmealService.pageQuery(setmealPageQueryDTO);
 
@@ -39,13 +38,56 @@ public class SetmealController {
      */
 
     @PostMapping
-    public  Result saveSetmeal(SetmealDTO setmealDTO){
-        log.info("新增套餐",setmealDTO);
+    public Result saveSetmeal(@RequestBody SetmealDTO setmealDTO) {
+        log.info("新增套餐", setmealDTO);
         setmealService.saveSetmeal(setmealDTO);
+        return Result.success();
+    }
+
+    /**
+     * id查询套餐
+     */
+    @GetMapping("/{id}")
+    public Result selectById(@PathVariable long id){
+        return Result.success(setmealService.selectById(id));
+    }
+
+
+    /**
+     * 修改套餐
+     */
+    @PutMapping
+    public Result updateSetmeal(@RequestBody SetmealDTO setmealDTO){
+        log.info("修改套餐", setmealDTO);
+        setmealService.updateSetmeal(setmealDTO);
+
 
         return Result.success();
     }
 
+    /**
+     * 删除套餐
+     */
+    @DeleteMapping
+    public Result deleteSetmeal(@RequestParam  List<Long> ids){
+        log.info("修改套餐", ids);
+        setmealService.deleteSetmeal(ids);
+
+
+
+        return Result.success();
+    }
+
+    /**
+     * 修改套餐状态
+     */
+    @PostMapping("/status/{status}")
+    public Result starOrStop(@PathVariable Integer status,long id){
+        log.info("修改套餐状态", status);
+        setmealService.starOrStop(status,id);
+
+        return Result.success();
+    }
 
 
 

@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,16 +36,19 @@ public class DishServiceImpl implements DishService {
 
 
 
+    @Transactional
     @Override
     public void saveDishWithFlavor(DishDTO dishDTO) {
         Dish dish = new Dish();
         BeanUtils.copyProperties(dishDTO,dish);
+        System.out.println(dish.getId());
 
 
         //添加菜品
         dishMapper.insertDish(dish);
 
 
+        System.out.println(dish.getId());
         //添加口味，注明ID
         List<DishFlavor> flavors = dishDTO.getFlavors();
         if (flavors.size()!=0){
@@ -125,6 +127,7 @@ public class DishServiceImpl implements DishService {
      *
      * @param dishDTO
      */
+    @Transactional
     public void updateWithFlavor(DishDTO dishDTO) {
         Dish dish = new Dish();
         BeanUtils.copyProperties(dishDTO, dish);
@@ -155,6 +158,12 @@ public class DishServiceImpl implements DishService {
 
 
         dishMapper.update(dish);
+    }
+
+    @Override
+    public List<Dish> SelectDishByCategoryId(String categoryId) {
+        List<Dish> ds=dishMapper.SelectDishByCategoryId(categoryId);
+        return ds;
     }
 
 }

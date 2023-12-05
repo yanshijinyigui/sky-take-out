@@ -16,8 +16,11 @@ public interface DishService {
 
 
 
-    void deleteBatch(List<Long> ids);
-
+    /**
+     *
+     * @param id
+     * @return
+     */
     DishVO getByIdWithFlavor(long id);
 
     /**
@@ -27,5 +30,27 @@ public interface DishService {
      */
     void updateWithFlavor(DishDTO dishDTO);
 
+    /**
+     * 批量删除
+     * @param ids
+     */
+    void deleteBatch(List<Long> ids);
+
+
+
+    /**
+     *
+     * @param status
+     * @param id
+     */
     void startOrStop(Integer status, long id);
+
+
+
+    /**
+     *
+     * @param categoryId
+     * @return
+     */
+    List<Dish> SelectDishByCategoryId(String categoryId);
 }

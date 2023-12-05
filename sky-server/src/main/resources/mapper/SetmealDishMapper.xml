@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.SetmealDishMapper">
+    <insert id="insert"  useGeneratedKeys="true" keyProperty="id">
+insert into setmeal_dish
+        (id,name,setmeal_id , price, dish_id, copies)
+        values
+        <foreach collection="ids" item="df" separator=",">
+            (#{df.id},#{df.name},#{df.setmealId}, #{df.price}, #{df.dishId}, #{df.copies})
+        </foreach>
+
+    </insert>
 
 
     <select id="countByDishId" resultType="java.lang.Long">
@@ -12,5 +21,10 @@
         </foreach>
 
 
+    </select>
+    <select id="countBySetmealId" resultType="com.sky.entity.SetmealDish">
+        select *
+        from setmeal_dish
+            where setmeal_id=#{id}
     </select>
 </mapper>
