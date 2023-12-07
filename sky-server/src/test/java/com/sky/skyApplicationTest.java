@@ -100,10 +100,9 @@ public class skyApplicationTest {
     public void pp()throws IOException {
     Map<String,String>pp=new HashMap<>();
     pp.put("username","admin");
-    pp.put("password","123456");
     String s = HttpClientUtil.doPost4Json("http://localhost:8080/admin/employee/login", pp);
     System.out.println(s);
-    
+
 }
 
 }

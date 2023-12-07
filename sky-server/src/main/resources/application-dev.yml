@@ -1,4 +1,6 @@
 sky:
+
+  #数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     host: localhost
@@ -6,8 +8,15 @@ sky:
     database: sky_take_out
     username: root
     password: 123456
+
+    #redis配置
   redis:
     host: localhost
     port: 6379
     password: 123456
     database: 10
+
+  #微信登录配置
+  wechat:
+    appid: wxf95f3528b0ef861b
+    secret: accc1847e3a4136d4caa35028b7f92e7

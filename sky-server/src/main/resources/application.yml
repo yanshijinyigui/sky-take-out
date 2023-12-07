@@ -49,5 +49,11 @@ sky:
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+    user-secret-key: kk
+    user-ttl: 7200000
+    user-token-name: authentication
 
 #   // org.springframework.jdbc.support.JdbcTransactionManager: debug//
+  wechat:
+    appid: ${sky.wechat.appid}
+    secret: ${sky.wechat.secret}
