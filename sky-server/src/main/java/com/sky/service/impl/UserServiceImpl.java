@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
         JSONObject jsonObject = JSON.parseObject(json);
         String openid = jsonObject.getString("openid");
+        System.out.println(openid);
 
 
         //判断openid是否为空，如果为空表示登录失败，抛出业务异常
