@@ -29,11 +29,11 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    private CategoryMapper categoryMapper;
+     CategoryMapper categoryMapper;
     @Autowired
-    private DishMapper dishMapper;
+     DishMapper dishMapper;
     @Autowired
-    private SetmealMapper setmealMapper;
+     SetmealMapper setmealMapper;
 
     /**
      * 新增分类

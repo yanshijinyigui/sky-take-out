@@ -24,9 +24,9 @@ import java.util.List;
 @Service
 public class SetmealServiceImpl implements SetmealService {
     @Autowired
-    private SetmealMapper setmealMapper;
+     SetmealMapper setmealMapper;
     @Autowired
-    private SetmealDishMapper setmealDishMapper;
+     SetmealDishMapper setmealDishMapper;
 
     @Override
     public PageResult pageQuery(SetmealPageQueryDTO setmealPageQueryDTO) {

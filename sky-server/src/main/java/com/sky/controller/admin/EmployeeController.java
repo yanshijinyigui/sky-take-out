@@ -29,9 +29,9 @@ import java.util.Map;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeService employeeService;
+     EmployeeService employeeService;
     @Autowired
-    private JwtProperties jwtProperties;
+     JwtProperties jwtProperties;
 
     /**
      * 登录

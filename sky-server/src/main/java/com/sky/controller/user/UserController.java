@@ -26,9 +26,9 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+     UserService userService;
     @Autowired
-    private JwtProperties jwtProperties;
+     JwtProperties jwtProperties;
 
     /**
      * 微信登录

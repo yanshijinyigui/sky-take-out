@@ -20,7 +20,7 @@ import java.util.List;
 @Api(tags = "C端-套餐浏览接口")
 public class SetmealController {
     @Autowired
-    private SetmealService setmealService;
+     SetmealService setmealService;
 
     /**
      * 条件查询

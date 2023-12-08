@@ -21,9 +21,9 @@ import java.util.List;
 @Api(tags = "C端-菜品浏览接口")
 public class DishController {
     @Autowired
-    private DishService dishService;
+     DishService dishService;
     @Autowired
-    private RedisTemplate redisTemplate;
+     RedisTemplate redisTemplate;
 
     /**
      * 根据分类id查询菜品

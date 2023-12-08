@@ -23,7 +23,7 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private CategoryService categoryService;
+     CategoryService categoryService;
 
     /**
      * 新增分类

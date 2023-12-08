@@ -25,9 +25,9 @@ import java.util.Set;
 public class DishController {
 
     @Autowired
-    private DishService dishService;
+     DishService dishService;
     @Autowired
-    private RedisTemplate redisTemplate;
+     RedisTemplate redisTemplate;
 
     /**
      * 清理缓存数据

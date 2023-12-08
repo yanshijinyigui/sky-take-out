@@ -4,10 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.context.BaseContext;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
-import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
 import com.sky.exception.DeletionNotAllowedException;
@@ -29,11 +27,11 @@ import java.util.List;
 public class DishServiceImpl implements DishService {
 
     @Autowired
-    private DishMapper dishMapper;
+     DishMapper dishMapper;
     @Autowired
-    private DishFlavorMapper dishFlavorMapper;
+     DishFlavorMapper dishFlavorMapper;
     @Autowired
-    private SetmealDishMapper setmealDishMapper;
+     SetmealDishMapper setmealDishMapper;
 
 
 
