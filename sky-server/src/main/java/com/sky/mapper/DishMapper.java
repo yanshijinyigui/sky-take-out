@@ -28,10 +28,15 @@ public interface DishMapper {
     @AutoFill(value = OperationType.INSERT)
     void insertDish(Dish dish);
 
+
+
     Page<DishVO> pageQuery(DishPageQueryDTO dishPageQueryDTO);
+
+
 
     @Select("select * from dish where id=#{id}")
     Dish SelectDishById(long id);
+
 
 
     /**
