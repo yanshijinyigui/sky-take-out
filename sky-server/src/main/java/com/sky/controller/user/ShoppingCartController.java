@@ -22,7 +22,7 @@ public class ShoppingCartController {
 
     @PostMapping("/add")
     public Result add(@RequestBody ShoppingCartDTO shoppingCartDTO) {
-        log.info("添加购物车：{}", shoppingCartDTO);
+        System.out.println("添加购物车：{}"+shoppingCartDTO);
 
         shoppingCartService.add(shoppingCartDTO);
 
@@ -48,6 +48,18 @@ public class ShoppingCartController {
     @ApiOperation("清空购物车商品")
     public Result<String> clean(){
         shoppingCartService.cleanShoppingCart();
+        return Result.success();
+    }
+    /**
+     * 删除购物车中一个商品
+     * @param shoppingCartDTO
+     * @return
+     */
+    @PostMapping("/sub")
+    @ApiOperation("删除购物车中一个商品")
+    public Result sub(@RequestBody ShoppingCartDTO shoppingCartDTO){
+        log.info("删除购物车中一个商品，商品：{}", shoppingCartDTO);
+        shoppingCartService.subShoppingCart(shoppingCartDTO);
         return Result.success();
     }
 }
