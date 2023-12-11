@@ -29,8 +29,6 @@ public class OrderController {
     /**
      * 用户下单
      *
-     * @param ordersSubmitDTO
-     * @return
      */
     @PostMapping("/submit")
     @ApiOperation("用户下单")
@@ -40,4 +38,21 @@ public class OrderController {
         return Result.success(orderSubmitVO);
     }
 
+    /**
+     * 历史订单查询
+     * @return
+     */
+    @GetMapping("/historyOrders")
+    @ApiOperation("历史订单查询")
+    public Result<PageResult> page(int page, int pageSize, Integer status) {
+        return Result.success(orderService.pageQuery4User(page, pageSize, status));
+    }
+    /**
+     * 查询订单详情
+     */
+    @GetMapping("/orderDetail/{id}")
+    @ApiOperation("查询订单详情")
+    public Result<OrderVO> details(@PathVariable("id") Long id) {
+        return Result.success(orderService.details(id));
+    }
 }
