@@ -1,10 +1,11 @@
-package com.sky.controller.admin;
+package com.sky.controller.notify;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sky.properties.WeChatProperties;
 import com.sky.service.OrderService;
+import com.sky.websocket.WebSocketServer;
 import com.wechat.pay.contrib.apache.httpclient.util.AesUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * 支付回调相关接口
@@ -28,6 +31,8 @@ public class PayNotifyController {
     private OrderService orderService;
     @Autowired
     private WeChatProperties weChatProperties;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     /**
      * 支付成功回调
@@ -36,7 +41,18 @@ public class PayNotifyController {
      */
     @RequestMapping("/paySuccess")
     public void paySuccessNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //读取数据
+        //来单提醒
+        Map map = new HashMap();
+        map.put("type", 1);//消息类型，1表示来单提醒
+        map.put("orderId", UUID.randomUUID().toString());
+        map.put("content",  "新的订单");
+
+        //通过WebSocket实现来单提醒，向客户端浏览器推送消息
+        webSocketServer.sendToAllClient(JSON.toJSONString(map));
+
+
+
+      /*  //读取数据
         String body = readData(request);
         log.info("支付成功回调：{}", body);
 
@@ -52,7 +68,7 @@ public class PayNotifyController {
         log.info("微信支付交易号：{}", transactionId);
 
         //业务处理，修改订单状态、来单提醒
-        orderService.paySuccess(outTradeNo);
+        orderService.paySuccess(outTradeNo);*/
 
         //给微信响应
         responseToWeixin(response);
